@@ -1,0 +1,25 @@
+.container {
+	display: flex;
+	width: 300px;
+	align-items: center;
+}
+
+.current,
+.goal {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.barContainer {
+	height: 20px;
+	background-color: hsl(180, 3%, 16%);
+	flex-grow: 1;
+	margin: 0 10px;
+	border-radius: 20px;
+}
+
+.bar {
+	height: 100%;
+	background-color: aquamarine;
+	border-radius: 20px;
+}
