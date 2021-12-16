@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 
 export async function connectDatabase() {
 	const client = await MongoClient.connect(
@@ -45,7 +45,20 @@ export default async function handler(req, res) {
 	}
 
 	if (req.method === 'PUT') {
-		res.status(204).json({ message: 'Updated item' })
+		const { _id, text, current, goal } = req.body
+		const result = await db.collection('todos').updateOne(
+			{
+				_id: ObjectId(_id),
+			},
+			{
+				$set: {
+					text,
+					current,
+					goal,
+				},
+			}
+		)
+		res.status(200).json({ message: 'Updated item', result })
 	}
 
 	if (req.method === 'DELETE') {
