@@ -1,4 +1,6 @@
 import ProgressBar from '../progressBar/progressBar'
+import Input from '../input/input'
+import Button from '../button/button'
 import { useEffect, useState } from 'react'
 
 export default function List() {
@@ -79,30 +81,30 @@ export default function List() {
 			</div>
 			{isEditing && (
 				<div>
-					<button onClick={() => setIsEditing(false)}>close</button>
-					<button onClick={handleDelete}>delete</button>
+					<Button onClick={() => setIsEditing(false)}>close</Button>
+					<Button onClick={handleDelete}>delete</Button>
 					<form onSubmit={(e) => handleSubmit(e)}>
-						<input
+						<Input
 							type='text'
 							placeholder='title'
 							value={text}
 							onChange={(e) => setText(e.target.value)}
 						/>
-						<input
+						<Input
 							type='number'
 							placeholder='current'
 							value={current}
 							onChange={(e) => setCurrent(e.target.value)}
 							step='.5'
 						/>
-						<input
+						<Input
 							type='number'
 							placeholder='weekly goal'
 							value={goal}
 							onChange={(e) => setGoal(e.target.value)}
 							step='.5'
 						/>
-						<button>submit</button>
+						<Button>submit</Button>
 					</form>
 				</div>
 			)}

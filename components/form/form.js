@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Input from '../input/input'
+import Button from '../button/button'
 import styles from './form.module.css'
 
 export default function Form() {
@@ -27,18 +29,18 @@ export default function Form() {
 
 	return (
 		<div>
-			<form onSubmit={submitHandler}>
-				<input
+			<form onSubmit={submitHandler} className={styles.form}>
+				<Input
 					type='text'
 					placeholder='Title'
 					onChange={(e) => setText(e.target.value)}
 				/>
-				<input
+				<Input
 					type='number'
 					placeholder='Weekly Goal'
 					onChange={(e) => setGoal(e.target.value)}
 				/>
-				<button>Add New</button>
+				<Button>Add New</Button>
 			</form>
 		</div>
 	)

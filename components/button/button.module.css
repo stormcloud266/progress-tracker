@@ -1,0 +1,10 @@
+.button {
+	background-color: aquamarine;
+	color: black;
+	border: none;
+	outline: none;
+	font-family: inherit;
+	line-height: inherit;
+	border-radius: 4px;
+	padding: 8px 16px;
+}
