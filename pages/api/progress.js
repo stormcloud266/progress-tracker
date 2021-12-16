@@ -46,23 +46,42 @@ export default async function handler(req, res) {
 
 	if (req.method === 'PUT') {
 		const { _id, text, current, goal } = req.body
-		const result = await db.collection('todos').updateOne(
-			{
-				_id: ObjectId(_id),
-			},
-			{
-				$set: {
-					text,
-					current,
-					goal,
+		let result
+		if (text) {
+			result = await db.collection('todos').updateOne(
+				{
+					_id: ObjectId(_id),
 				},
-			}
-		)
+				{
+					$set: {
+						text,
+						current,
+						goal,
+					},
+				}
+			)
+		} else {
+			result = await db.collection('todos').updateOne(
+				{
+					_id: ObjectId(_id),
+				},
+				{
+					$set: {
+						current,
+					},
+				}
+			)
+		}
+
 		res.status(200).json({ message: 'Updated item', result })
 	}
 
 	if (req.method === 'DELETE') {
-		res.status(200).json({ message: 'Deleted item' })
+		console.log('fe')
+		const result = await db.collection('todos').deleteOne({
+			_id: ObjectId(req.body._id),
+		})
+		res.status(200).json({ message: 'Deleted item', result })
 	}
 
 	client.close()

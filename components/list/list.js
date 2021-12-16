@@ -7,8 +7,8 @@ export default function List() {
 
 	const [id, setId] = useState('')
 	const [text, setText] = useState('')
-	const [current, setCurrent] = useState(0)
-	const [goal, setGoal] = useState(0)
+	const [current, setCurrent] = useState('')
+	const [goal, setGoal] = useState('')
 
 	// TODO hoist it
 	useEffect(() => {
@@ -47,6 +47,22 @@ export default function List() {
 			})
 	}
 
+	const handleDelete = () => {
+		fetch('/api/progress', {
+			method: 'DELETE',
+			body: JSON.stringify({
+				_id: id,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log('data: ', data)
+			})
+	}
+
 	return (
 		<div>
 			<h1>todos</h1>
@@ -62,28 +78,33 @@ export default function List() {
 				))}
 			</div>
 			{isEditing && (
-				<form onSubmit={(e) => handleSubmit(e)}>
+				<div>
 					<button onClick={() => setIsEditing(false)}>close</button>
-					<input
-						type='text'
-						placeholder='title'
-						value={text}
-						onChange={(e) => setText(e.target.value)}
-					/>
-					<input
-						type='number'
-						placeholder='current'
-						value={current}
-						onChange={(e) => setCurrent(e.target.value)}
-					/>
-					<input
-						type='number'
-						placeholder='weekly goal'
-						value={goal}
-						onChange={(e) => setGoal(e.target.value)}
-					/>
-					<button>submit</button>
-				</form>
+					<button onClick={handleDelete}>delete</button>
+					<form onSubmit={(e) => handleSubmit(e)}>
+						<input
+							type='text'
+							placeholder='title'
+							value={text}
+							onChange={(e) => setText(e.target.value)}
+						/>
+						<input
+							type='number'
+							placeholder='current'
+							value={current}
+							onChange={(e) => setCurrent(e.target.value)}
+							step='.5'
+						/>
+						<input
+							type='number'
+							placeholder='weekly goal'
+							value={goal}
+							onChange={(e) => setGoal(e.target.value)}
+							step='.5'
+						/>
+						<button>submit</button>
+					</form>
+				</div>
 			)}
 		</div>
 	)
