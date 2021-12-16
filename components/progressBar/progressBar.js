@@ -3,7 +3,6 @@ import styles from './progressBar.module.css'
 
 export default function ProgressBar({ current, goal }) {
 	const [width, setWidth] = useState(0)
-	console.log('width: ', width)
 
 	useEffect(() => {
 		setWidth(current / goal)
