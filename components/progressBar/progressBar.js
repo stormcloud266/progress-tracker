@@ -6,7 +6,8 @@ export default function ProgressBar({ current, goal, disabled }) {
 	const [updatedCurrent, setUpdatedCurrent] = useState(current)
 
 	useEffect(() => {
-		setWidth(parseFloat(updatedCurrent) / parseFloat(goal))
+		const updatedWidth = parseFloat(updatedCurrent) / parseFloat(goal)
+		setWidth(updatedWidth > 1 ? 1 : updatedWidth)
 	}, [updatedCurrent, goal])
 
 	const handleClick = () => {
