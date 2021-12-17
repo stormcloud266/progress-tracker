@@ -1,24 +1,15 @@
 import ProgressBar from '../progressBar/progressBar'
 import Input from '../input/input'
 import Button from '../button/button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-export default function List() {
-	const [items, setItems] = useState([])
+export default function List({ items, setItems }) {
 	const [isEditing, setIsEditing] = useState(false)
 
 	const [id, setId] = useState('')
 	const [text, setText] = useState('')
 	const [current, setCurrent] = useState('')
 	const [goal, setGoal] = useState('')
-
-	// TODO hoist it
-	useEffect(() => {
-		console.log('updates')
-		fetch('/api/progress')
-			.then((res) => res.json())
-			.then((data) => setItems(data.result))
-	}, [])
 
 	const openEditor = (item) => {
 		setIsEditing(true)
@@ -50,6 +41,9 @@ export default function List() {
 	}
 
 	const handleDelete = () => {
+		setItems(items.filter((item) => item._id !== id))
+		setIsEditing(false)
+
 		fetch('/api/progress', {
 			method: 'DELETE',
 			body: JSON.stringify({
@@ -73,9 +67,19 @@ export default function List() {
 				{items.map((item) => (
 					<div key={item._id}>
 						<p>
-							{item.text} <button onClick={() => openEditor(item)}>edit</button>
+							{item.text}{' '}
+							<button
+								disabled={item.disabled ? true : false}
+								onClick={() => openEditor(item)}
+							>
+								edit
+							</button>
 						</p>
-						<ProgressBar current={item.current} goal={item.goal} />
+						<ProgressBar
+							current={item.current}
+							goal={item.goal}
+							disabled={item.disabled ? true : false}
+						/>
 					</div>
 				))}
 			</div>

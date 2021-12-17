@@ -9,3 +9,6 @@ every monday grab last weeks to dos and start over
 
 CRUD
 Reset every monday
+
+trim text
+trim goal

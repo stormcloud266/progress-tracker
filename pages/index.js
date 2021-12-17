@@ -1,9 +1,18 @@
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import List from '../components/list/list'
 import Form from '../components/form/form'
 import Container from '../components/container/container'
 
 export default function Home() {
+	const [items, setItems] = useState([])
+
+	useEffect(() => {
+		fetch('/api/progress')
+			.then((res) => res.json())
+			.then((data) => setItems(data.result))
+	}, [])
+
 	return (
 		<div>
 			<Head>
@@ -12,8 +21,8 @@ export default function Home() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Container>
-				<Form />
-				<List />
+				<Form items={items} setItems={setItems} />
+				<List items={items} setItems={setItems} />
 			</Container>
 		</div>
 	)

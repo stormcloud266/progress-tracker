@@ -3,12 +3,24 @@ import Input from '../input/input'
 import Button from '../button/button'
 import styles from './form.module.css'
 
-export default function Form() {
+export default function Form({ items, setItems }) {
 	const [text, setText] = useState('')
 	const [goal, setGoal] = useState(0)
 
 	const submitHandler = (e) => {
 		e.preventDefault()
+		const tempId = Date.now().toString()
+
+		setItems((prevState) => [
+			...prevState,
+			{
+				_id: tempId,
+				text,
+				goal,
+				current: 0,
+				disabled: true,
+			},
+		])
 
 		fetch('/api/progress', {
 			method: 'POST',
@@ -24,6 +36,16 @@ export default function Form() {
 			.then((data) => {
 				setText('')
 				setGoal(0)
+
+				setItems((prevState) =>
+					prevState.map((item) => {
+						if (item._id === tempId) {
+							return data.result
+						} else {
+							return item
+						}
+					})
+				)
 			})
 	}
 
@@ -33,11 +55,13 @@ export default function Form() {
 				<Input
 					type='text'
 					placeholder='Title'
+					value={text}
 					onChange={(e) => setText(e.target.value)}
 				/>
 				<Input
 					type='number'
 					placeholder='Weekly Goal'
+					value={goal}
 					onChange={(e) => setGoal(e.target.value)}
 				/>
 				<Button>Add New</Button>

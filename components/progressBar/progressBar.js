@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from './progressBar.module.css'
 
-export default function ProgressBar({ current, goal }) {
+export default function ProgressBar({ current, goal, disabled }) {
 	const [width, setWidth] = useState(0)
 	const [updatedCurrent, setUpdatedCurrent] = useState(current)
 
@@ -36,7 +36,9 @@ export default function ProgressBar({ current, goal }) {
 	return (
 		<div className={styles.container}>
 			<p className={styles.current}>
-				<button onClick={handleClick}>+</button>
+				<button disabled={disabled} onClick={handleClick}>
+					+
+				</button>
 				{updatedCurrent}
 			</p>
 			<div className={styles.barContainer}>

@@ -35,13 +35,13 @@ export default async function handler(req, res) {
 
 		try {
 			const result = await db.collection('todos').insertOne(data)
-			data.id = result.insertedId
+			data._id = result.insertedId
 		} catch (error) {
 			client.close()
 			res.status(500).json({ message: 'Could not connect to database.' })
 			return
 		}
-		res.status(201).json({ message: 'Added new item', data })
+		res.status(201).json({ message: 'Added new item', result: data })
 	}
 
 	if (req.method === 'PUT') {
@@ -77,7 +77,6 @@ export default async function handler(req, res) {
 	}
 
 	if (req.method === 'DELETE') {
-		console.log('fe')
 		const result = await db.collection('todos').deleteOne({
 			_id: ObjectId(req.body._id),
 		})
